@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="artefact/rubric/db" VERSION="2010072302" COMMENT="XMLDB file for Rubric Artefact Mahara tables"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+<TABLES>
+
+    <TABLE NAME="lo_rubric">
+    	<FIELDS>
+    		<FIELD NAME="id" TYPE="int" LENGTH="20" SEQUENCE="true" NOTNULL="true" />
+    		<FIELD NAME="title" TYPE="text" NOTNULL="false" />
+    		<FIELD NAME="description" TYPE="text" NOTNULL="false" />
+    	</FIELDS>
+    	<KEYS>
+    		<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+    	</KEYS>
+    </TABLE>
+
+	<TABLE NAME="lo_year">
+		<FIELDS>
+			<FIELD NAME="id" TYPE="int" LENGTH="20" SEQUENCE="true" NOTNULL="true" />
+			<FIELD NAME="rubric" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="false" />
+			<FIELD NAME="title" TYPE="text" NOTNULL="false" />
+		</FIELDS>
+		<KEYS>
+			<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+			<KEY NAME="lo_year_ibfk_1" TYPE="foreign" FIELDS="rubric" REFTABLE="lo_rubric" REFFIELDS="id" />
+		</KEYS>
+	</TABLE>
+
+	<TABLE NAME="lo_standard">
+		<FIELDS>
+			<FIELD NAME="id" TYPE="int" LENGTH="20" SEQUENCE="true" NOTNULL="true" />
+			<FIELD NAME="rubric" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="false" />
+			<FIELD NAME="title" TYPE="text" NOTNULL="false" />
+			<FIELD NAME="point" TYPE="int" LENGTH="6" SEQUENCE="false" NOTNULL="false" />
+			<FIELD NAME="bgcolor" TYPE="text" NOTNULL="false" />
+		</FIELDS>
+		<KEYS>
+			<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+			<KEY NAME="lo_standard_ibfk_1" TYPE="foreign" FIELDS="rubric" REFTABLE="lo_rubric" REFFIELDS="id" />
+		</KEYS>
+	</TABLE>
+
+	<TABLE NAME="lo_skill">
+		<FIELDS>
+			<FIELD NAME="id" TYPE="int" LENGTH="20" SEQUENCE="true" NOTNULL="true" />
+			<FIELD NAME="rubric" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="false" />
+			<FIELD NAME="title" TYPE="text" NOTNULL="false" />
+			<FIELD NAME="description" TYPE="text" NOTNULL="false" />
+		</FIELDS>
+		<KEYS>
+			<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+			<KEY NAME="lo_skill_ibfk_1" TYPE="foreign" FIELDS="rubric" REFTABLE="lo_rubric" REFFIELDS="id" />
+		</KEYS>
+	</TABLE>
+
+    <TABLE NAME="lo_score">
+		<FIELDS>
+			<FIELD NAME="id" TYPE="int" LENGTH="20" SEQUENCE="true" NOTNULL="true" />
+			<FIELD NAME="usr" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+			<FIELD NAME="skill" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+			<FIELD NAME="standard" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+			<FIELD NAME="year" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+			<FIELD NAME="comment" TYPE="text" NOTNULL="false" />
+			<FIELD NAME="default_flg" TYPE="int" LENGTH="1" SEQUENCE="false" NOTNULL="true" />
+		</FIELDS>
+		<KEYS>
+			<KEY NAME="primary" TYPE="primary" FIELDS="id" />
+			<KEY NAME="lo_score_fk1" TYPE="foreign" FIELDS="skill" REFTABLE="lo_skill" REFFIELDS="id" />
+			<KEY NAME="lo_score_fk2" TYPE="foreign" FIELDS="standard" REFTABLE="lo_standard" REFFIELDS="id" />
+			<KEY NAME="lo_score_fk3" TYPE="foreign" FIELDS="year" REFTABLE="lo_year" REFFIELDS="id" />
+			<KEY NAME="lo_score_fk4" TYPE="foreign" FIELDS="usr" REFTABLE="usr" REFFIELDS="id" />
+		</KEYS>
+	</TABLE>
+
+    <TABLE NAME="lo_cell">
+    	<FIELDS>
+    		<FIELD NAME="skill" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+    		<FIELD NAME="standard" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+    		<FIELD NAME="label" TYPE="text" NOTNULL="false" />
+    	</FIELDS>
+    	<KEYS>
+    		<KEY NAME="primary" TYPE="primary" FIELDS="skill,standard" />
+    		<KEY NAME="lo_cell_fk1" TYPE="foreign" FIELDS="skill" REFTABLE="lo_skill" REFFIELDS="id" />
+    		<KEY NAME="lo_cell_fk2" TYPE="foreign" FIELDS="standard" REFTABLE="lo_standard" REFFIELDS="id" />
+    	</KEYS>
+    </TABLE>
+
+    <TABLE NAME="lo_evidence">
+    	<FIELDS>
+    		<FIELD NAME="score" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+    		<FIELD NAME="artefact" TYPE="int" LENGTH="20" SEQUENCE="false" NOTNULL="true" />
+    	</FIELDS>
+    	<KEYS>
+    		<KEY NAME="primary" TYPE="primary" FIELDS="score,artefact" />
+    		<KEY NAME="lo_evidence_fk1" TYPE="foreign" FIELDS="score" REFTABLE="lo_score" REFFIELDS="id" />
+    	</KEYS>
+    </TABLE>
+
+</TABLES>
+</XMLDB>
