@@ -20,6 +20,13 @@ safe_require('artefact','rubric');
 define('TITLE', get_string('editrubric','artefact.rubric'));
 
 $id = param_integer('id');
+// --> 2014.12.22 SCSK ADD
+$show = param_integer('show', 0);
+// <-- 2014.12.22 SCSK ADD
+
+// --> 2014.12.22 SCSK ADD
+$user = param_integer('user', 0) ? param_integer('user', 0) : $USER->get('id');
+// <-- 2014.12.22 SCSK ADD
 
 
 // $artefact = new ArtefactTyperubric($id);
@@ -40,7 +47,7 @@ $default_flg = false; //行が編集済みかを確認する
 
 foreach ($skills as $skill) {
 	foreach ($years as $year) {
-		$cell = ArtefactTyperubric::get_score($skill->id, $year->id, $USER->get('id'));
+		$cell = ArtefactTyperubric::get_score($skill->id, $year->id, $user);
 		$viewlist[$skill->id][$year->id] = $cell[0];
 		foreach ($cell as $value) {
 			$imglist[$skill->id][$year->id][] = $value; //エビデンス用配列
@@ -88,6 +95,9 @@ $smarty->assign('isyeardisplay', count($years) > 1); //時系列が2以上なら
 // $smarty->assign('width', (240 + count($years) * 120));
 // SCSK MOD END
 
+// --> 2014.12.22 SCSK ADD
+$smarty->assign('show', $show);
+// <-- 2014.12.22 SCSK ADD
 $smarty->assign('years', $years);
 $smarty->assign('skills', $skills);
 $smarty->assign('standards', $standards);

@@ -102,10 +102,10 @@ $myPicture->stroke();
 
 // function get_score($id) {
 // 	global $view;
-// 	$result = get_records_sql_array("SELECT sk.id, y.id yid, y.title ytitle, st.point, sk.title stitle, s.default_flg FROM {lo_score} s
-// 			INNER JOIN {lo_year} y ON s.year = y.id
-// 			INNER JOIN {lo_standard} st ON s.standard = st.id
-// 			INNER JOIN {lo_skill} sk ON s.skill = sk.id
+// 	$result = get_records_sql_array("SELECT sk.id, y.id yid, y.title ytitle, st.point, sk.title stitle, s.default_flg FROM {artefact_rubric_score} s
+// 			INNER JOIN {artefact_rubric_year} y ON s.year = y.id
+// 			INNER JOIN {artefact_rubric_standard} st ON s.standard = st.id
+// 			INNER JOIN {artefact_rubric_skill} sk ON s.skill = sk.id
 // 			WHERE y.rubric = ? AND s.usr = ?
 // 			ORDER BY sk.id, y.id
 // 			", array($id, $view->get('owner'))) ;

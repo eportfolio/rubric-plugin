@@ -51,7 +51,7 @@ $results = get_options($rubric, $id);
 $options = $results['options'];
 $labels = $results['labels'];
 
-$sql = "SELECT artefact FROM {lo_evidence} WHERE score = ".$id;
+$sql = "SELECT artefact FROM {artefact_rubric_evidence} WHERE score = ".$id;
 $rs = get_recordset_sql($sql);
 $attachments =array();
 $cnt = 0;
@@ -67,7 +67,16 @@ if($score->default_flg == 0){
 	$defaultvalue = -1;
 }
 ksort($options);
+
+$mscore = ArtefactTyperubric::get_score_musr_mtime($id);
+$evidence = ArtefactTyperubric::get_evidence_musr_mtime($id);
+
 $elements = array(
+		'scoremodified' => array(
+				'type' => 'html',
+				'class' => 'description',
+				'value' => $mscore ? get_string('lastmodified', 'artefact.rubric').$mscore->name.'('.$mscore->date.')' : '',
+		),
 		'options' => array(
 				'type'         => 'select',
 				'title'        => get_string('attainment', 'artefact.rubric'),
@@ -82,6 +91,11 @@ $elements = array(
 				'title' => get_string('rubric','artefact.rubric'),
 				'value' =>
 				'<P id="rubric_rabel" style="font-weight : bold;color : green;"></P>'
+		),
+		'evidencemodified' => array(
+				'type' => 'html',
+				'class' => 'description',
+				'value' => $evidence ? get_string('lastmodified', 'artefact.rubric').$evidence->name.'('.$evidence->date.')' : '',
 		),
 		'filebrowser' => array(
 				'type'         => 'filebrowser',
@@ -258,6 +272,9 @@ $smarty->assign('INLINEJAVASCRIPT', $javascript);
 // $smarty = smarty();
 $smarty->assign('editform', $form);
 $smarty->assign('year', $rdata[0]->ytitle);
+// --> 2014.12.18 SCSK ADD
+$smarty->assign('description', $rdata[0]->sdescription);
+// <-- 2014.12.18 SCSK ADD
 $smarty->assign('PAGEHEADING', $rdata[0]->title.'/'.$rdata[0]->stitle);
 $smarty->display('artefact:rubric:edit.tpl');
 
@@ -298,9 +315,22 @@ function editattainment_submit(Pieform $form, $values) {
 			'comment' => $values['description'],
 			'default_flg' => 1, //更新済みに設定
 	);
-	$success = update_record('lo_score', $data, 'id');
 
-	$sql = "SELECT artefact FROM {lo_evidence} WHERE score = ".$values['score'];
+	$default = get_record('artefact_rubric_score', 'id', $values['score']);
+
+	$date = date('Y-m-d H:i:s');
+
+	if($default->default_flg == 0) {
+		$data->{'cusr'} = $USER->get('id');
+		$data->{'ctime'} = $date;
+	}
+
+	$data->{'musr'} = $USER->get('id');
+	$data->{'mtime'} = $date;
+
+	$success = update_record('artefact_rubric_score', $data, 'id');
+
+	$sql = "SELECT artefact FROM {artefact_rubric_evidence} WHERE score = ".$values['score'];
 	$rs = get_recordset_sql($sql);
 	$attachments =array();
 	$cnt = 0;
@@ -313,14 +343,14 @@ function editattainment_submit(Pieform $form, $values) {
 
 	foreach($attachments as $attachment) {
 		if (!in_array($o, $new)) {
-			$sql = "DELETE FROM {lo_evidence} WHERE score = ".$values['score']." AND artefact = ".$attachment;
+			$sql = "DELETE FROM {artefact_rubric_evidence} WHERE score = ".$values['score']." AND artefact = ".$attachment;
 			execute_sql($sql);
 		}
 	}
 
 	foreach($new as $file) {
 		try{
-			$sql = "INSERT INTO {lo_evidence} VALUES(".$values['score'].",".$file.")";
+			$sql = "INSERT INTO {artefact_rubric_evidence} VALUES(".$values['score'].",".$file.",{$USER->get('id')},'{$date}',{$USER->get('id')},'{$date}')";
 			execute_sql($sql);
 		}catch(Exception $e) {
 		}
@@ -342,10 +372,10 @@ function editattainment_submit(Pieform $form, $values) {
 }
 
 function get_options($rubric, $id) {
-	$result = get_records_sql_array("SELECT s.id, s.title, c.label FROM {lo_standard} s
-			INNER JOIN {lo_cell} c ON s.id = c.standard
+	$result = get_records_sql_array("SELECT s.id, s.title, c.label FROM {artefact_rubric_standard} s
+			INNER JOIN {artefact_rubric_cell} c ON s.id = c.standard
 			WHERE s.rubric = ?
-			AND c.skill = (SELECT MAX(skill) FROM {lo_score} WHERE id = ?)
+			AND c.skill = (SELECT MAX(skill) FROM {artefact_rubric_score} WHERE id = ?)
 			ORDER BY s.id
 			", array($rubric, $id)) ;
 	$ret = array();
@@ -362,9 +392,9 @@ function get_options($rubric, $id) {
 }
 
 function get_score($id) {
-	$result = get_records_sql_array("SELECT s.*, a.title filename, st.title FROM {lo_score} s
-			INNER JOIN {lo_standard} st ON s.standard = st.id
-			LEFT JOIN {lo_evidence} e ON s.id = e.score
+	$result = get_records_sql_array("SELECT s.*, a.title filename, st.title FROM {artefact_rubric_score} s
+			INNER JOIN {artefact_rubric_standard} st ON s.standard = st.id
+			LEFT JOIN {artefact_rubric_evidence} e ON s.id = e.score
 			LEFT JOIN {artefact} a ON e.artefact = a.id
 			WHERE s.id = ?
 			", array($id)) ;
@@ -372,12 +402,12 @@ function get_score($id) {
 }
 
 function get_rubric_base($rubric, $id) {
-	return $result = get_records_sql_array("SELECT r.title,s.title stitle, y.title ytitle FROM {lo_rubric} r
-			INNER JOIN {lo_skill} s ON r.id = s.rubric
-			INNER JOIN {lo_year} y ON r.id = y.rubric
+	return $result = get_records_sql_array("SELECT r.title,s.title stitle, s.description sdescription, y.title ytitle FROM {artefact_rubric} r
+			INNER JOIN {artefact_rubric_skill} s ON r.id = s.rubric
+			INNER JOIN {artefact_rubric_year} y ON r.id = y.rubric
 			WHERE r.id = ?
-			AND s.id = (SELECT MAX(skill) FROM {lo_score} WHERE id = ?)
-			AND y.id = (SELECT MAX(year) FROM `lo_score` WHERE id = ?)"
+			AND s.id = (SELECT MAX(skill) FROM {artefact_rubric_score} WHERE id = ?)
+			AND y.id = (SELECT MAX(year) FROM `artefact_rubric_score` WHERE id = ?)"
 			, array($rubric, $id, $id)) ;
 }
 

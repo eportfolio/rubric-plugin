@@ -15,7 +15,7 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/init.php');
 require_once('pieforms/pieform.php');
 safe_require('artefact','rubric');
 
-define('TITLE', get_string('deleterubric','artefact.rubric'));
+define('TITLE', get_string('deletetemplate','artefact.rubric'));
 
 $id = param_integer('id');
 $data = ArtefactTyperubric::get_rubric_data($id);
@@ -33,8 +33,8 @@ $deleteform = array(
     'elements' => array(
         'submit' => array(
             'type' => 'submitcancel',
-            'value' => array(get_string('deleterubric','artefact.rubric'), get_string('cancel')),
-            'goto' => get_config('wwwroot') . '/artefact/rubric/',
+            'value' => array(get_string('deletetemplate','artefact.rubric'), get_string('cancel')),
+            'goto' => get_config('wwwroot') . '/artefact/rubric/managetemplate.php',
         ),
     )
 );
@@ -43,8 +43,8 @@ $form = pieform($deleteform);
 $smarty = smarty();
 $smarty->assign('form', $form);
 $smarty->assign('PAGEHEADING', $data[0]->title);
-$smarty->assign('subheading', get_string('deletethisrubric','artefact.rubric',$data[0]->title));
-$smarty->assign('message', get_string('deleterubricconfirm','artefact.rubric'));
+$smarty->assign('subheading', get_string('deletethistemplate','artefact.rubric',$data[0]->title));
+$smarty->assign('message', get_string('deletetemplateconfirm','artefact.rubric'));
 $smarty->display('artefact:rubric:delete.tpl');
 
 // calls this function first so that we can get the artefact and call delete on it
@@ -53,13 +53,12 @@ function deleterubricform_submit(Pieform $form, $values) {
 
     $vals = array($USER->get('id'), $id);
     db_begin();
-    // 画像
-    delete_records_sql('DELETE FROM artefact_rubric_evidence WHERE score IN (SELECT id FROM artefact_rubric_score WHERE usr = ? AND year IN (SELECT id FROM artefact_rubric_year WHERE rubric = ? )) ', $vals);
-    // スコア
-    delete_records_sql('DELETE FROM artefact_rubric_score WHERE usr = ? AND year IN (SELECT id FROM artefact_rubric_year WHERE rubric = ? )', $vals);
+
+    execute_sql('UPDATE artefact_rubric SET deleted = 1 WHERE id = ?', array($id));
+
     db_commit();
 
     $SESSION->add_ok_msg(get_string('rubricdeletedsuccessfully', 'artefact.rubric'));
 
-    redirect('/artefact/rubric/');
+    redirect('/artefact/rubric/managetemplate.php');
 }

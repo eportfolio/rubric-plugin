@@ -16,7 +16,8 @@ $string['editingattainment'] = '達成度の編集';
 $string['editrubric'] = 'ルーブリックを編集する';
 $string['editattainment'] = '達成度を編集する';
 $string['newrubric'] = '新しいルーブリック';
-$string['newrubrictemplate'] = '新しいテンプレート';
+// $string['newrubrictemplate'] = '新しいテンプレート';
+$string['managetemplate'] = 'テンプレート管理';
 $string['norubric'] = '表示するルーブリックはありません。';
 $string['norubricaddone'] = 'まだルーブリックはありません。%sルーブリックを追加してください%s。';
 $string['rubricdeletedsuccessfully'] = 'ルーブリックが正常に削除されました。';
@@ -55,4 +56,9 @@ $string['rubrictemplateerror3maxcol'] = '3行目の評価基準データ数は�
 $string['rubrictemplateerror3number'] = '3行目のデータ形式(ポイント「数値型」)が正しくありません。';
 $string['rubrictemplateerror3style'] = '3行目のデータ形式(背景色「16進数」)が正しくありません。';
 $string['rubrictemplateerror4requred'] = '4行目以降のデータ数が正しくありません。';
+
+// -->
+$string['deletetemplate'] = 'テンプレートを削除する';
+$string['deletetemplateconfirm'] = '本当にこのテンプレートを削除してもよろしいですか？このテンプレートを削除することで学生が入力したすべてのデータも削除されます。';
+$string['deletethistemplate'] = 'テンプレートを削除する: %s';
 

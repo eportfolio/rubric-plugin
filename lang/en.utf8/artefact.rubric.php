@@ -1,29 +1,4 @@
 <?php
-/**
- * Mahara: Electronic portfolio, weblog, resume builder and social networking
- * Copyright (C) 2006-2008 Catalyst IT Ltd (http://www.catalyst.net.nz)
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * @package    mahara
- * @subpackage lang
- * @author     Catalyst IT Ltd
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2006-2008 Catalyst IT Ltd http://catalyst.net.nz
- *
- */
-
 defined('INTERNAL') || die();
 
 /* Rubric */
@@ -35,7 +10,8 @@ $string['editrubric'] = 'Edit rubric';
 $string['editattainment'] = 'Edit attainment';
 $string['editingrubric'] = 'Editing rubric';
 $string['newrubric'] = 'Add a rubric';
-$string['newrubrictemplate'] = 'Add a template';
+// $string['newrubrictemplate'] = 'Add a template';
+$string['managetemplate'] = 'Manage template';
 $string['norubricaddone'] = 'No rubric yet. %sAdd one%s.';
 $string['norubric'] = 'No rubric to display';
 $string['rubric'] = 'Rubric';
@@ -81,3 +57,16 @@ $string['rubrictemplateerror3number'] = 'csv error';
 $string['rubrictemplateerror3style'] = 'csv error';
 $string['rubrictemplateerror4requred'] = 'csv error';
 
+// --> 2014122601
+$string['deletetemplate'] = 'Delete Template';
+$string['deletetemplateconfirm'] = 'Do you really want to delete this template？All student\'s input data is deleted to delete this template.';
+$string['deletethistemplate'] = 'Delete Template: %s';
+$string['notemplate'] = 'No template yes.';
+
+$string['editaccess'] = 'Edit access';
+$string['updateaccess'] = 'Access rules were updated.';
+$string['loggedinusr'] = 'Loggedin User';
+$string['total'] = 'Total';
+$string['average'] = 'Average';
+$string['noitem'] = 'No items.';
+$string['lastmodified'] = 'lastmodified(date)：';

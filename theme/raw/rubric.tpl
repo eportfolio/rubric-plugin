@@ -1,5 +1,12 @@
 {include file="header.tpl"}
-
+{if $show}
+<div align="right">
+<a class="btn nojs-hidden-inline" href="javascript:history.back()">
+<span class="btn-back">{str tag="back"}</span>
+</a>
+</div>
+<br/>
+{/if}
 <div id="rubricwrap1" style="height:100%; width:100%; overflow-y:scroll; overflow-x:scroll;">
     {$radarchart|safe}
 </div>

@@ -118,10 +118,10 @@ $myPicture->stroke();
 // function get_score($id) {
 // 	global $view;
 
-// 	$result = get_records_sql_array("SELECT y.id, y.title ytitle, st.point, sk.title stitle, s.default_flg FROM {lo_score} s
-// 			INNER JOIN {lo_year} y ON s.year = y.id
-// 			INNER JOIN {lo_standard} st ON s.standard = st.id
-// 			INNER JOIN {lo_skill} sk ON s.skill = sk.id
+// 	$result = get_records_sql_array("SELECT y.id, y.title ytitle, st.point, sk.title stitle, s.default_flg FROM {artefact_rubric_score} s
+// 			INNER JOIN {artefact_rubric_year} y ON s.year = y.id
+// 			INNER JOIN {artefact_rubric_standard} st ON s.standard = st.id
+// 			INNER JOIN {artefact_rubric_skill} sk ON s.skill = sk.id
 // 			WHERE y.rubric = ? AND s.usr = ?
 // 			ORDER BY y.id, sk.id
 // 			", array($id, $view->get('owner'))) ;
@@ -138,7 +138,7 @@ $myPicture->stroke();
 
 //評価基準
 function get_standard_maxpoint($id) {
-	$result = get_records_sql_array("SELECT MAX(point) point FROM {lo_standard} WHERE rubric = ? ORDER BY id", array($id)) ;
+	$result = get_records_sql_array("SELECT MAX(point) point FROM {artefact_rubric_standard} WHERE rubric = ? ORDER BY id", array($id)) ;
 	return $result[0]->point;
 }
 

@@ -122,11 +122,13 @@ class PluginBlocktyperubric extends SystemBlockType {
     //ルーブリック基本データが作成されているかを取得
     public static function check_rubric_score($rubric) {
     	global $view;
-    	$result = get_records_sql_array("SELECT sc.id  FROM {lo_score} sc
-    			INNER JOIN {lo_year} y ON sc.year = y.id
-    			INNER JOIN {lo_rubric} r ON y.rubric = r.id
-    			WHERE sc.usr = ? AND r.id = ?
+    	// --> 2014.12.11 SCSK MOD
+    	$result = get_records_sql_array("SELECT sc.id  FROM {artefact_rubric_score} sc
+    			INNER JOIN {artefact_rubric_year} y ON sc.year = y.id
+    			INNER JOIN {artefact_rubric} r ON y.rubric = r.id
+    			WHERE sc.usr = ? AND r.id = ? AND r.deleted = 0;
     			", array($view->get('owner'), $rubric)) ;
+    	// <-- 2014.12.11 SCSK MOD
 
     	if($result === false){
     		return false; //なければ
@@ -136,7 +138,7 @@ class PluginBlocktyperubric extends SystemBlockType {
     }
 
     public static function get_years($id) {
-    	return $result = get_records_sql_array("SELECT * FROM {lo_year} WHERE rubric = ? ORDER BY id", array($id)) ;
+    	return $result = get_records_sql_array("SELECT * FROM {artefact_rubric_year} WHERE rubric = ? ORDER BY id", array($id)) ;
     }
 
     public static function has_instance_config() {
@@ -166,7 +168,9 @@ class PluginBlocktyperubric extends SystemBlockType {
     	);
 
     	$options_rubric = array();
-    	$rs = get_recordset_sql("SELECT id,title FROM lo_rubric");
+    	// --> 2014.12.11 SCSK MOD
+    	$rs = get_recordset_sql("SELECT id,title FROM artefact_rubric WHERE deleted = 0");
+    	// <-- 2014.12.11 SCSK MOD
     	while($record = $rs->FetchRow()) {
     		$options_rubric[$record['id']] = $record['title'];
     	}

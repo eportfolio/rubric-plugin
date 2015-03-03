@@ -2,7 +2,7 @@
 <div id="rubricwrap">
     <div class="rbuttons">
     {if $isAdmimOrStuff }
-        <a class="btn" href="{$WWWROOT}artefact/rubric/newtemplate.php">{str section="artefact.rubric" tag="newrubrictemplate"}</a>
+        <a class="btn" href="{$WWWROOT}artefact/rubric/managetemplate.php">{str section="artefact.rubric" tag="managetemplate"}</a>
     {/if}
         <a class="btn" href="{$WWWROOT}artefact/rubric/new.php">{str section="artefact.rubric" tag="newrubric"}</a>
     </div>

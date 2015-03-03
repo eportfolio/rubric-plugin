@@ -1,7 +1,8 @@
 <?php
 /**
  * Mahara: Electronic portfolio, weblog, resume builder and social networking
- * Copyright (C) 2006-2008 Catalyst IT Ltd (http://www.catalyst.net.nz)
+ * Copyright (C) 2006-2009 Catalyst IT Ltd and others; see:
+ *                         http://wiki.mahara.org/Contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,13 +19,22 @@
  *
  * @package    mahara
  * @subpackage artefact-rubric
- * @author     SCSK Corporation
+ * @author     Catalyst IT Ltd
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2006-2009 Catalyst IT Ltd http://catalyst.net.nz
  *
  */
 
-defined('INTERNAL') || die();
+define('INTERNAL', 1);
+define('JSON', 1);
 
-$config = new StdClass;
-$config->version = 2014122601;
-$config->release = '0.0.2';
+require(dirname(dirname(dirname(__FILE__))) . '/init.php');
+safe_require('artefact', 'rubric');
+
+$limit = param_integer('limit', 10);
+$offset = param_integer('offset', 0);
+
+$rubric = ArtefactTyperubric::get_rubric($offset, $limit);
+ArtefactTyperubricTemplate::build_rubrictemplate_list_html($rubric);
+
+json_reply(false, (object) array('message' => false, 'data' => $rubric));
