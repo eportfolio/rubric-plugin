@@ -23,9 +23,9 @@
 				    <tr><td style="width:130px; background-color: #F5F5F5;"></td>
 				    {foreach from=$years item=year}
 				    {* 2013/07/29 SCSK MOD
-				        <th style="text-align: center;background-color: #F5F5F5; width:140px;" nowrap>{$year->title}<br>{str section="artefact.rubric" tag="attainment"}</th>
+				        <th style="text-align: center;background-color: #F5F5F5; width:140px;" nowrap>{$year->title}<br>{str section="artefact.rubric" tag="achievement"}</th>
 				    *}
-				    	<th style="text-align: center;background-color: #F5F5F5; width:130px;" nowrap>{$year->title}<br>{str section="artefact.rubric" tag="attainment"}</th>
+				    	<th style="text-align: center;background-color: #F5F5F5; width:130px;" nowrap>{$year->title}<br>{str section="artefact.rubric" tag="achievement"}</th>
 				    {/foreach}
 				    {* 2013/07/29 SCSK MOD
 				    <th style="width:75px;background-color: #F5F5F5;">{str section="artefact.rubric" tag="nextstep"}</th>

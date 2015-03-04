@@ -29,11 +29,11 @@ $rdata = get_rubric_base($rubric, $id);
 define('TITLE', $rdata[0]->title);
 
 if ($id) {
-// 	$attainment = new ArtefactTypeAttainment($id);
-// 	if (!$USER->can_edit_artefact($attainment)) {
+// 	$achievement = new ArtefactTypeAchievement($id);
+// 	if (!$USER->can_edit_artefact($achievement)) {
 // 	    throw new AccessDeniedException(get_string('accessdenied', 'error'));
 // 	}
-// 	$form = ArtefactTypeAttainment::get_form($rubric, $id);
+// 	$form = ArtefactTypeAchievement::get_form($rubric, $id);
 }
 else {
 	throw new AccessDeniedException(get_string('accessdenied', 'error'));
@@ -79,7 +79,7 @@ $elements = array(
 		),
 		'options' => array(
 				'type'         => 'select',
-				'title'        => get_string('attainment', 'artefact.rubric'),
+				'title'        => get_string('achievement', 'artefact.rubric'),
 				'defaultvalue' => $defaultvalue,
 				'options'      => $options,
 				'rules' => array(
@@ -103,7 +103,7 @@ $elements = array(
 				'folder'       => $folder,
 				'highlight'    => $highlight,
 				'browse'       => $browse,
-				'page'         => get_config('wwwroot') . 'artefact/rubric/edit/attainment.php?id='.$id.'&rubric='.$rubric,
+				'page'         => get_config('wwwroot') . 'artefact/rubric/edit/achievement.php?id='.$id.'&rubric='.$rubric,
 				'browsehelp'   => 'browsemyfiles',
 				'config'       => array(
 						'upload'          => true,
@@ -141,7 +141,7 @@ $elements = array(
 		),
 		'submitpost' => array(
 				'type' => 'submitcancel',
-				'value' => array(get_string('saveattainment','artefact.rubric'), get_string('cancel')),
+				'value' => array(get_string('saveachievement','artefact.rubric'), get_string('cancel')),
 				'goto' => get_config('wwwroot') . 'artefact/rubric/edit/index.php?id='.$rubric,
 		)
 );
@@ -153,13 +153,13 @@ foreach ($labels as  $key => $value) {
 }
 
 $form = pieform(array(
-		'name'               => 'editattainment',
+		'name'               => 'editachievement',
 		'method'             => 'post',
 		'autofocus'          => $focuselement,
 		'jsform'             => true,
 		'newiframeonsubmit'  => true,
-		'jssuccesscallback'  => 'editattainment_callback',
-		'jserrorcallback'    => 'editattainment_callback',
+		'jssuccesscallback'  => 'editachievement_callback',
+		'jserrorcallback'    => 'editachievement_callback',
 		'plugintype'         => 'artefact',
 		'pluginname'         => 'blog',
 		'configdirs'         => array(get_config('libroot') . 'form/', get_config('docroot') . 'artefact/file/form/'),
@@ -186,7 +186,7 @@ $javascript = <<<EOF
 // window, but needs access to the attachment list on this page
 function attachedImageList() {
     var images = [];
-    var attachments = editattainment_filebrowser.selecteddata;
+    var attachments = editachievement_filebrowser.selecteddata;
     for (var a in attachments) {
         if (attachments[a].artefacttype == 'image' || attachments[a].artefacttype == 'profileicon') {
             images.push({
@@ -234,20 +234,20 @@ function blogpostImageWindow(ui, v) {
     t.windowManager.open(template);
 }
 
-function editattainment_callback(form, data) {
-    editattainment_filebrowser.callback(form, data);
+function editachievement_callback(form, data) {
+    editachievement_filebrowser.callback(form, data);
 }
 
 addLoadEvent(function () {
-    $('editattainment_options').onchange = changetitle;
+    $('editachievement_options').onchange = changetitle;
     changetitle();
 });
 function changetitle() {
-    obj = document.getElementById('editattainment_options');
+    obj = document.getElementById('editachievement_options');
     val = obj.options[obj.selectedIndex].value;
     rabel = document.getElementById('rubric_rabel');
     if(val > 0 ){
-	    hidden = document.getElementById('editattainment_hidden'+val);
+	    hidden = document.getElementById('editachievement_hidden'+val);
 	    rabel.innerHTML = hidden.value;
     }else{
         rabel.innerHTML = '';
@@ -278,14 +278,14 @@ $smarty->assign('description', $rdata[0]->sdescription);
 $smarty->assign('PAGEHEADING', $rdata[0]->title.'/'.$rdata[0]->stitle);
 $smarty->display('artefact:rubric:edit.tpl');
 
-function editattainment_validate(Pieform $form, $values) {
+function editachievement_validate(Pieform $form, $values) {
 	global $SESSION, $id, $rubric;
 
 	if($values['options'] == -1) {
 		$result = array(
 				'error'   => true,
-				'message' => get_string('attainmentnosaved', 'artefact.rubric'),
-				'goto'    => get_config('wwwroot') . 'artefact/rubric/edit/attainment.php?id='.$id.'&rubric='.$rubric,
+				'message' => get_string('achievementnosaved', 'artefact.rubric'),
+				'goto'    => get_config('wwwroot') . 'artefact/rubric/edit/achievement.php?id='.$id.'&rubric='.$rubric,
 		);
 
 		// Redirect back to the blog page from within the iframe
@@ -300,12 +300,12 @@ function editattainment_validate(Pieform $form, $values) {
  * This function get called to cancel the form submission. It returns to the
  * blog list.
  */
-function editattainment_cancel_submit() {
+function editachievement_cancel_submit() {
 	global $blog;
 	redirect(get_config('wwwroot') . 'artefact/blog/view/?id=' . $blog);
 }
 
-function editattainment_submit(Pieform $form, $values) {
+function editachievement_submit(Pieform $form, $values) {
 	global $USER, $SESSION, $blogpost, $blog;
 
 	db_begin();
@@ -360,7 +360,7 @@ function editattainment_submit(Pieform $form, $values) {
 
 	$result = array(
 			'error'   => false,
-			'message' => get_string('attainmentsaved', 'artefact.rubric'),
+			'message' => get_string('achievementsaved', 'artefact.rubric'),
 			'goto'    => get_config('wwwroot') . 'artefact/rubric/edit/index.php?id=' . $values['rubric'],
 	);
 	if ($form->submitted_by_js()) {

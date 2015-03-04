@@ -282,9 +282,9 @@ class ArtefactTyperubric extends ArtefactType {
     	global $USER;
     	// --> 2014.12.11 SCSK MOD
     	if(!is_null($rubric)) {
-    		return get_record_sql("SELECT id,title FROM {artefact_rubric} WHERE deleted = 0 AND id = ? ORDER BY id", array($rubric)) ;
+    		return get_record_sql("SELECT id,description,title FROM {artefact_rubric} WHERE deleted = 0 AND id = ? ORDER BY id", array($rubric)) ;
     	}else{
-    		return get_records_sql_array("SELECT id,title FROM {artefact_rubric} WHERE deleted = 0 ORDER BY id") ;
+    		return get_records_sql_array("SELECT id,description,title FROM {artefact_rubric} WHERE deleted = 0 ORDER BY id", array()) ;
     	}
     	// <-- 2014.12.11 SCSK MOD
     }
@@ -726,6 +726,13 @@ class ArtefactTyperubricTemplate extends ArtefactType {
 							$fordb->{'title'} = $csv[$i][$j];
 							$success = insert_record('artefact_rubric_year', $fordb);//時系列
 						}
+
+						if(count($csv[$i]) < 3) {
+							$fordb = new StdClass;
+							$fordb->{'rubric'} = $id;
+							$fordb->{'title'} = '';
+							$success = insert_record('artefact_rubric_year', $fordb);//時系列
+						}
 						// <-- 2014.12.22 SCSK MOD
 						break;
 // --> 2014.12.22 SCSK DEL
@@ -785,7 +792,7 @@ class ArtefactTyperubricTemplate extends ArtefactType {
 
 	/**
 	 * This method extends ArtefactType::commit() by adding additional data
-	 * into the artefact_rubric_attainment table.
+	 * into the artefact_rubric_achievement table.
 	 *
 	 */
 	public function commit($values) {

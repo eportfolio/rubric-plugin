@@ -48,7 +48,7 @@ foreach ($scores as $key => $score) { //時系列
 
 	if($isedit){
 		$MyData->addPoints($points,"SKILL_".$colorcnt);
-		$ytitle = ($score[0]->ytitle == "") ? get_string('attainment','artefact.rubric') : $score[0]->ytitle;
+		$ytitle = ($score[0]->ytitle == "") ? get_string('achievement','artefact.rubric') : $score[0]->ytitle;
 		$MyData->setSerieDescription("SKILL_".$colorcnt,$ytitle);
 		$MyData->setPalette(array("SKILL_".$colorcnt),array("Alpha"=>100, "R"=>$rcolors[$colorcnt-1],"G"=>$gcolors[$colorcnt-1],"B"=>$bcolors[$colorcnt-1]));
 		$colorcnt++;

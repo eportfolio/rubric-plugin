@@ -7,7 +7,7 @@ $string['comment'] = 'Comment';
 $string['deleterubric'] = 'Delete rubric';
 $string['deletethisrubric'] = 'Delete rubric: \'%s\'';
 $string['editrubric'] = 'Edit rubric';
-$string['editattainment'] = 'Edit attainment';
+$string['editachievement'] = 'Edit achievement';
 $string['editingrubric'] = 'Editing rubric';
 $string['newrubric'] = 'Add a rubric';
 // $string['newrubrictemplate'] = 'Add a template';
@@ -24,19 +24,19 @@ $string['rubrictemplatesavedsuccessfully'] = 'RubricTemplate saved successfully.
 $string['rubrictemplatesavederror'] = 'RubricTemplate saved error.';
 $string['saverubric'] = 'Save a rubric';
 $string['saverubrictemplate'] = 'Save a rubrictemplate';
-$string['saveattainment'] = 'Save an Attainment';
+$string['saveachievement'] = 'Save an Achievement';
 $string['title'] = 'Title';
 
 /* Tasks */
 $string['completed'] = 'Completed';
 $string['completiondate'] = 'Completion date';
-$string['editingattainment'] = 'Editing attainment';
+$string['editingachievement'] = 'Editing achievement';
 
 $string['csvfiledescription'] = 'csv template';
 $string['nextstep'] = 'next step';
-$string['attainment'] = 'attainment';
-$string['attainmentsaved'] = 'Attainment saved successfully.';
-$string['attainmentnosaved'] = 'Select Attainment.';
+$string['achievement'] = 'achievement';
+$string['achievementsaved'] = 'Achievement saved successfully.';
+$string['achievementnosaved'] = 'Select Achievement.';
 $string['noimageshavebeenattachedtothispost'] = '';
 $string['year'] = 'year';
 $string['attachedfiles'] = 'Attached files';
@@ -45,7 +45,7 @@ $string['attachments'] = 'Attachments';
 $string['cantnewrubric'] = 'You cannot create a new rubric';
 $string['cantnewrubricnotemplate'] = 'Select a rubric';
 $string['defaultskilltitle'] = 'edit';
-$string['selectmessage'] = '---Select attainment---';
+$string['selectmessage'] = '---Select achievement---';
 
 $string['rubrictemplateerrormaxrow'] = 'csv error';
 $string['rubrictemplateerror1requredcol'] = 'csv error';

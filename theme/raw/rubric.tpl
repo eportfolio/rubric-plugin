@@ -43,7 +43,7 @@
 		        {if $year->title != ""}
 		        <br>
 		        {/if}
-		        {str section="artefact.rubric" tag="attainment"}
+		        {str section="artefact.rubric" tag="achievement"}
 		        </th>
 		    {/foreach}
 		    {* 2013/07/29 SCSK MOD
@@ -60,7 +60,7 @@
 		        <th style="text-align: center;vertical-align:middle;background-color: #F5F5F5;width:120px;"><div title="{$skills[$r]->description}">{$skills[$r]->title}</div></th>
 		        {foreach from=$row key=ck item=col}
 		            <td bgcolor="{$col->bgcolor}" style="width:120px;">
-		            <a href="{$WWWROOT}artefact/rubric/edit/attainment.php?id={$col->id}&rubric={$rubric}" title="{str tag="edit"}" >
+		            <a href="{$WWWROOT}artefact/rubric/edit/achievement.php?id={$col->id}&rubric={$rubric}" title="{str tag="edit"}" >
 		            {if $col->default_flg}
 		            	{$col->label}
 		            {else}

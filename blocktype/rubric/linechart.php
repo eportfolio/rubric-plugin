@@ -34,7 +34,7 @@ $base = ArtefactTyperubric::get_rubric_data($id);
 
 /* Create and populate the pData object */
 $MyData = new pData();
-$MyData->setAxisName(0,get_string('attainment', 'artefact.rubric'));
+$MyData->setAxisName(0,get_string('achievement', 'artefact.rubric'));
 
 $names = array();
 foreach ($scores as $key => $score) {
